@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Slay Like a Queen — Guide Semi-Marathon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #faf8f5;
+    --card: #ffffff;
+    --rose: #d4636b;
+    --rose-light: #f5e0e2;
+    --rose-pale: #faf0f0;
+    --gold: #c9a86c;
+    --gold-light: #f5efe0;
+    --text: #2c2c2c;
+    --text-light: #7a7a7a;
+    --shadow: 0 2px 24px rgba(0,0,0,0.06);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 16px 80px;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 48px 0 36px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .header .crown {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 12px;
+    letter-spacing: 8px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--rose);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .header .subtitle {
+    margin-top: 10px;
+    font-size: 0.88rem;
+    color: var(--text-light);
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* SECTION CARDS */
+  .section-card {
+    background: var(--card);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid #f0ece6;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header .icon-wrap {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .icon-wrap.rose { background: var(--rose-light); }
+  .icon-wrap.gold { background: var(--gold-light); }
+  .icon-wrap.green { background: #e8f5e9; }
+  .icon-wrap.blue  { background: #e3f2fd; }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .section-header .chevron {
+    font-size: 14px;
+    color: var(--text-light);
+    transition: transform 0.3s;
+  }
+  .section-card.open .chevron { transform: rotate(180deg); }
+
+  .section-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(.4,0,.2,1);
+  }
+  .section-card.open .section-body { max-height: 2000px; }
+  .section-inner { padding: 0 24px 24px; }
+
+  /* SUB-BLOCKS */
+  .sub-block {
+    background: #fdfcfa;
+    border: 1px solid #f0ece6;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .sub-block:last-child { margin-bottom: 0; }
+  .sub-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--rose);
+  }
+  .sub-block p, .sub-block li {
+    font-size: 0.87rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .sub-block ul { list-style: none; padding: 0; }
+  .sub-block ul li::before {
+    content: '✦ ';
+    color: var(--gold);
+    font-size: 0.75rem;
+  }
+
+  /* ALERT / WARNING */
+  .alert {
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .alert.warning { background: #fff8e1; border: 1px solid #ffe082; }
+  .alert.info    { background: var(--rose-pale); border: 1px solid var(--rose-light); }
+  .alert .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert p { font-size: 0.87rem; line-height: 1.55; }
+  .alert strong { color: var(--rose); }
+
+  /* TIMING VISUAL */
+  .phases {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 4px;
+  }
+  .phase {
+    flex: 1;
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .phase .phase-weeks {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #fff;
+    background: var(--rose);
+    border-radius: 20px;
+    display: inline-block;
+    padding: 2px 10px;
+    margin-bottom: 6px;
+  }
+  .phase:nth-child(2) .phase-weeks { background: var(--gold); }
+  .phase:nth-child(3) .phase-weeks { background: #6aaa6a; }
+  .phase { background: #faf8f5; border: 1px solid #f0ece6; }
+  .phase h4 { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+  .phase p { font-size: 0.78rem; color: var(--text-light); line-height: 1.4; }
+
+  /* CALC BADGE */
+  .calc-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold-light);
+    border: 1px solid #e8d9b0;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #7a6020;
+    margin-top: 6px;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px 0 0;
+    font-size: 0.82rem;
+    color: var(--text-light);
+  }
+  .footer .crown { font-size: 18px; display: block; margin-bottom: 4px; }
+
+  @media (max-width: 480px) {
+    .phases { flex-direction: column; }
+    .header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <span class="crown">👑</span>
+    <h1>Slay Like a Queen<br/><em>ton Premier Semi-Marathon</em></h1>
+    <p class="subtitle">Guide complet · Biarritz Edition</p>
+  </div>
+
+  <!-- 1. LA PRÉPA -->
+  <div class="section-card open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon-wrap rose">🏃‍♀️</div>
+      <h2>1 — La Préparation</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="section-inner">
+
+        <!-- Appli -->
+        <div class="sub-block" style="border-left: 3px solid var(--gold);">
+          <h3>💎 Kiprun — L'appli qui slay</h3>
+          <p>Plan gratuit, progressif, fait pour les débutantes. C'est elle qui a permis de slay le semi de Poitiers — on la recommande à 100%.</p>
+        </div>
+
+        <!-- Timing -->
+        <div class="sub-block">
+          <h3>⏱️ Timing Idéal — 12 à 14 semaines</h3>
+          <div class="phases">
+            <div class="phase">
+              <div class="phase-weeks">Sem. 1–8</div>
+              <h4>Montée en charge</h4>
+              <p>On construit l'endurance de base. Les sorties longues augmentent petit à petit chaque semaine.</p>
+            </div>
+            <div class="phase">
+              <div class="phase-weeks">Sem. 9–11</div>
+              <h4>Pic de forme</h4>
+              <p>On pousse la distance max (15–17 km). C'est là que tu te sens la plus forte.</p>
+            </div>
+            <div class="phase">
+              <div class="phase-weeks">Sem. 12–14</div>
+              <h4>L'Affûtage</h4>
+              <p>On diminue le volume d'entraînement pour arriver reposée et affûtée le jour J. Pas de stress — ton corps se recharge !</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fréquence -->
+        <div class="sub-block">
+          <h3>📅 Fréquence Idéale</h3>
+          <p><strong>3 sorties par semaine</strong> — c'est le bon équilibre pour varier (endurance, fractionné, sortie longue) tout en laissant le corps récupérer. L'appli Kiprun va t'aider à déterminer ta <strong>VMA</strong>, ce qui permet ensuite de calculer ton EF.</p>
+        </div>
+
+        <!-- EF -->
+        <div class="sub-block">
+          <h3>💛 EF — Endurance Fondamentale</h3>
+          <p>C'est l'allure à laquelle tu es en <strong>zone 2 de BPM</strong>.</p>
+          <div class="calc-badge">🧮 Calcul : (220 − ton âge) × 0,55 à 0,65 = ta plage idéale</div>
+          <p style="margin-top: 10px;"><strong>Le meilleur repère (surtout si le cœur s'emballe vite) :</strong></p>
+          <ul>
+            <li>Tu peux courir en discutant sans être essoufflée</li>
+            <li>Ou courir bouche fermée en respirant par le nez</li>
+          </ul>
+        </div>
+
+        <!-- WARNING -->
+        <div class="alert warning">
+          <span class="alert-icon">⚠️</span>
+          <p><strong>Le point le plus important de la prépa :</strong> Pour progresser et tenir la distance, il faut courir <strong>lentement</strong>. On sait que c'est pas intuitif (on veut toutes aller vite !), mais c'est le combo <strong>EF + fractionné</strong> qui fait vraiment progresser. Courir trop vite tout le temps = stagnation + fatigue + blessure. Trust the process, Queen. 👑</p>
+        </div>
+
+        <!-- Longue distance -->
+        <div class="sub-block">
+          <h3>📏 Longue Distance</h3>
+          <p>On ne courra <strong>jamais 21 km à l'entraînement</strong> — ça fatigue trop et augmente le risque de blessure sans bénéfice réel. Le max sera entre <strong>15 et 17 km</strong>. L'adrénaline du jour J fera le reste, promesse !</p>
+        </div>
+
+        <!-- Biarritz -->
+        <div class="alert info">
+          <span class="alert-icon">🏔️</span>
+          <p><strong>Spécificité du Semi de Biarritz :</strong> Les montées piquent là-bas ! Il faut intégrer des <strong>entraînements en côtes</strong> dans la prépa — trouve une colline près de chez toi et fais-la ton ennemie préférée.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. RENFORCEMENT MUSCULAIRE -->
+  <div class="section-card">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon-wrap gold">💪</div>
+      <h2>2 — Renforcement Musculaire</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="section-inner">
+        <div class="sub-block">
+          <h3>Pourquoi ?</h3>
+          <p>Le renforcement musculaire prévient les blessures, améliore la stabilité et te permet de tenir une meilleure posture sur la longue distance. Les jambes ne sont pas les seules à travailler — le <strong>core</strong> aussi !</p>
+        </div>
+        <div class="sub-block">
+          <h3>Exercices incontournables</h3>
+          <ul>
+            <li><strong>Squats</strong> — force des quadriceps & fessiers</li>
+            <li><strong>Lunges (fentes)</strong> — équilibre + jambes</li>
+            <li><strong>Calf raises</strong> — mollets de steel pour les côtes de Biarritz</li>
+            <li><strong>Gainage (planche)</strong> — core de béton</li>
+            <li><strong>Glutes bridges</strong> — fessiers activés, dos heureux</li>
+          </ul>
+        </div>
+        <div class="alert warning">
+          <span class="alert-icon">💡</span>
+          <p><strong>Timing :</strong> 1–2 séances par semaine, en dehors des jours de course. On n'alourdisse pas les jambes avant une sortie longue !</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ALIMENTATION -->
+  <div class="section-card">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon-wrap green">🥗</div>
+      <h2>3 — Alimentation</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="section-inner">
+        <div class="sub-block">
+          <h3>Avant l'entraînement</h3>
+          <p>Un repas <strong>1h30–2h avant</strong> la sortie : glucides complexes (avoine, patate douce, riz) + une source de protéine légère. Évite le gras et les fibres en excès — le ventre doit être calm.</p>
+        </div>
+        <div class="sub-block">
+          <h3>Pendant les sorties longues (15+ km)</h3>
+          <p>On commence à <strong>ravitailler</strong> ! Une gel énergétique ou une poignée de dates toutes les 30–40 min. Entraîne ton ventre avec ça pendant la prépa — pas de surprise le jour J.</p>
+        </div>
+        <div class="sub-block">
+          <h3>Après l'entraînement</h3>
+          <p>Dans les <strong>30 minutes</strong> après : protéines + glucides. Un smoothie protéiné, un yaourt avec du miel, ou le classique poulet-riz. Le corps se recharge vite après une sortie.</p>
+        </div>
+        <div class="sub-block">
+          <h3>La veille de la course</h3>
+          <p>Le fameux <strong>carbo-loading</strong> : un dîner riche en glucides (pâtes, riz, pain) mais pas trop lourd. On dîne tôt, on dort bien. Aucune nouvelle recette — que du connu et qui te réussit !</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. HYDRATATION -->
+  <div class="section-card">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon-wrap blue">💧</div>
+      <h2>4 — Hydratation</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="section-inner">
+        <div class="sub-block">
+          <h3>Au quotidien</h3>
+          <p>Minimum <strong>1,5 à 2 litres d'eau par jour</strong>, et plus en période d'entraînement intense. Ta pipette (ta gourde) devient ta meilleure pote.</p>
+        </div>
+        <div class="sub-block">
+          <h3>Avant & pendant l'effort</h3>
+          <p>Bois <strong>500 ml dans les 2h avant</strong> la sortie, puis régulièrement pendant (toutes les 15–20 min pour les sorties longues). Sur les sorties courtes, l'eau avant suffit.</p>
+        </div>
+        <div class="sub-block">
+          <h3>Pendant le semi (le jour J)</h3>
+          <p>Il y aura des <strong>ravitaillements officiels</strong> sur le parcours — bois à chaque point de ravitaillement, même si t'as pas soif. La déshydratation arrive avant même qu'on la sente.</p>
+        </div>
+        <div class="alert info">
+          <span class="alert-icon">💎</span>
+          <p><strong>Pro tip :</strong> Dans les jours avant la course, tu peux passer à une <strong>eau enrichie en électrolytes</strong> (sodium, potassium) pour préparer le corps. Ça fait une vraie différence !</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. ACCESSOIRES -->
+  <div class="section-card">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon-wrap rose">👟</div>
+      <h2>5 — Accessoires</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="section-inner">
+        <div class="sub-block">
+          <h3>👟 Chaussures</h3>
+          <p>Le <strong>investissement n°1</strong>. Fais-toi conseiller dans un magasin spécialisé (analyse de foulée). Porte-les pendant toute la prépa pour qu'elles soient rodées avant le jour J — jamais neuves le jour de la course.</p>
+        </div>
+        <div class="sub-block">
+          <h3>👕 Vêtements techniques</h3>
+          <p>Matière qui évacue la transpiration, pas de coutures qui frottent. Test pendant les sorties longues — si ça irrite à 10 km, ça va irriter à 20 km.</p>
+        </div>
+        <div class="sub-block">
+          <h3>⌚ Montre / Appli GPS</h3>
+          <p>Pour suivre ta VMA, ton rythme et ta fréquence cardiaque en temps réel. Ta montre devient ton coach personnel sur la route.</p>
+        </div>
+        <div class="sub-block">
+          <h3>Bonus Queen Essentials</h3>
+          <ul>
+            <li><strong>Chaussettes de compression</strong> — pour la récupération après les sorties longues</li>
+            <li><strong>Ceinture porte-bidon</strong> — pratique pour les sorties longues en prépa</li>
+            <li><strong>Casquette / Visière</strong> — soleil breton en été = pas de blague</li>
+            <li><strong>Gel de silicone / anti-frottement</strong> — la vie sauvée pour les longues distances</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="crown">👑</span>
+    <p>Tu vas absolument slay ce semi. Trust yourself, Queen.</p>
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
